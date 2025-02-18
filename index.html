@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Médico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!--Librería para exportar a PDF-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-section">
+                <i class="fas fa-stethoscope fa-2x"></i>
+                <h1>Dr. Portal</h1>
+            </div>
+
+            <div class="nav-items">
+                <div class="dropdown">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>Pacientes</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-item" id="lista-pacientes">Lista de Pacientes</a>
+                        <a href="#" class="dropdown-item" id="nuevos-pacientes">Nuevos Pacientes</a>
+                        <a href="#" class="dropdown-item" id="citas-pendientes">Citas Pendientes</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Historiales</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-item" id="historial-medico">Historial Médico</a>
+                        <a href="#" class="dropdown-item" id="resultados-lab">Resultados Lab</a>
+                        <a href="#" class="dropdown-item" id="diagnosticos">Diagnósticos</a>
+                    </div>
+                </div>
+
+                <a href="#" class="nav-item" id="recetas-link">
+                    <i class="fas fa-prescription"></i>
+                    <span>Recetas</span>
+                </a>
+
+                <div class="patient-counter">
+                    <i class="fas fa-users"></i>
+                    <span>12 pacientes hoy</span>
+                </div>
+
+                <div class="profile-section">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-user-md"></i>
+                            <span>Dr. Cisneros</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item" id="mi-perfil">Mi Perfil</a>
+                            <a href="#" class="dropdown-item" id="estadisticas">Estadísticas</a>
+                            <a href="#" class="dropdown-item">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="emergency-btn">
+                    <i class="fas fa-phone"></i>
+                    Emergencia
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="dashboard-container" style="display: block;">
+            <h2>Panel Principal</h2>
+            
+            <div class="dashboard-grid">
+                <!-- Resumen de Actividades -->
+                <div class="dashboard-card summary">
+                    <h3>Hoy</h3>
+                    <div class="summary-stats">
+                        <!-- Estadísticas de Citas Pendientes -->
+                        <div class="stat-item">
+                            <i class="fas fa-user-clock"></i>
+                            <div class="stat-details">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Citas Pendientes</span>
+                            </div>
+                        </div>
+                        <!-- Estadísticas de Resultados Nuevos -->
+                        <div class="stat-item">
+                            <i class="fas fa-flask"></i>
+                            <div class="stat-details">
+                                <span class="stat-value">5</span>
+                                <span class="stat-label">Resultados Nuevos</span>
+                            </div>
+                        </div>
+                        <!-- Estadísticas de Recetas Emitidas -->
+                        <div class="stat-item">
+                            <i class="fas fa-prescription"></i>
+                            <div class="stat-details">
+                                <span class="stat-value">8</span>
+                                <span class="stat-label">Recetas Emitidas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximas Citas -->
+                <div class="dashboard-card appointments">
+                    <h3>Próximas Citas</h3>
+                    <div class="appointment-list">
+                        <!-- Cita individual -->
+                        <div class="appointment-item">
+                            <div class="time">09:30</div>
+                            <div class="details">
+                                <span class="patient-name">Laura Sánchez</span>
+                                <span class="appointment-type">Control Mensual</span>
+                            </div>
+                            <span class="status pending">Pendiente</span>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="time">10:15</div>
+                            <div class="details">
+                                <span class="patient-name">Roberto Hernandez</span>
+                                <span class="appointment-type">Revisión EEG</span>
+                            </div>
+                            <span class="status confirmed">Confirmada</span>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="time">11:00</div>
+                            <div class="details">
+                                <span class="patient-name">María García</span>
+                                <span class="appointment-type">Primera Consulta</span>
+                            </div>
+                            <span class="status pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pacientes Recientes -->
+                <div class="dashboard-card recent-patients">
+                    <h3>Pacientes Recientes</h3>
+                    <div class="patient-list">
+                        <div class="patient-item">
+                            <div class="patient-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="patient-details">
+                                <span class="patient-name">Carlos Ponte</span>
+                                <span class="last-visit">Última visita: Hoy</span>
+                            </div>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </div>
+                        <div class="patient-item">
+                            <div class="patient-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="patient-details">
+                                <span class="patient-name">Ana Rodriguez</span>
+                                <span class="last-visit">Última visita: Ayer</span>
+                            </div>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notificaciones -->
+                <div class="dashboard-card notifications">
+                    <h3>Notificaciones</h3>
+                    <div class="notification-list">
+                        <div class="notification-item urgent">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div class="notification-content">
+                                <p>Resultados urgentes disponibles - Paciente: María García</p>
+                                <span class="notification-time">Hace 30 min</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-bell"></i>
+                            <div class="notification-content">
+                                <p>3 citas pendientes de confirmar para mañana</p>
+                                <span class="notification-time">Hace 1 hora</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="notification-content">
+                                <p>Recordatorio: Actualizar historial de Roberto Hernandez</p>
+                                <span class="notification-time">Hace 2 horas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="patients-list-container" style="display: none;">
+            <h2>Lista de Pacientes</h2>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar paciente...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <table class="patients-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Última Visita</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#001</td>
+                        <td>María García</td>
+                        <td>45</td>
+                        <td>15/03/2024</td>
+                        <td><span class="status active">Activo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#002</td>
+                        <td>Juan Pérez</td>
+                        <td>32</td>
+                        <td>18/03/2024</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#003</td>
+                        <td>Ana Rodriguez</td>
+                        <td>28</td>
+                        <td>20/03/2024</td>
+                        <td><span class="status inactive">Inactivo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#004</td>
+                        <td>Carlos Ponte</td>
+                        <td>52</td>
+                        <td>21/03/2024</td>
+                        <td><span class="status active">Activo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#005</td>
+                        <td>Laura Sánchez</td>
+                        <td>19</td>
+                        <td>22/03/2024</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#006</td>
+                        <td>Miguel Gutierrez</td>
+                        <td>63</td>
+                        <td>22/03/2024</td>
+                        <td><span class="status active">Activo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#007</td>
+                        <td>Isabel Cuesta</td>
+                        <td>37</td>
+                        <td>23/03/2024</td>
+                        <td><span class="status inactive">Inactivo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#008</td>
+                        <td>Roberto Hernandez</td>
+                        <td>41</td>
+                        <td>23/03/2024</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#009</td>
+                        <td>Carmen Morales</td>
+                        <td>29</td>
+                        <td>24/03/2024</td>
+                        <td><span class="status active">Activo</span></td>
+                        <td>
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn"><i class="fas fa-file-medical"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="no-results" style="display: none;">
+                <p>No se encontraron pacientes que coincidan con la búsqueda</p>
+            </div>
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <span>Página 1 de 5</span>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="pending-appointments-container" style="display: none;">
+            <h2>Citas Pendientes</h2>
+            <div class="appointments-header">
+                <div class="date-filter">
+                    <label>Filtrar por fecha:</label>
+                    <input type="date" id="appointment-date">
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar cita...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <table class="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Paciente</th>
+                        <th>Tipo de Consulta</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>09:00</td>
+                        <td>Laura Sánchez</td>
+                        <td>Análisis de sangre</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn" title="Confirmar"><i class="fas fa-check"></i></button>
+                            <button class="action-btn" title="Reprogramar"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="action-btn" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>10:30</td>
+                        <td>Roberto Hernandez</td>
+                        <td>Seguimiento</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn" title="Confirmar"><i class="fas fa-check"></i></button>
+                            <button class="action-btn" title="Reprogramar"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="action-btn" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>11:45</td>
+                        <td>Carmen Morales</td>
+                        <td>Primera Consulta</td>
+                        <td><span class="status confirmed">Confirmada</span></td>
+                        <td>
+                            <button class="action-btn" title="Confirmar"><i class="fas fa-check"></i></button>
+                            <button class="action-btn" title="Reprogramar"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="action-btn" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>14:15</td>
+                        <td>Miguel Gutierrez</td>
+                        <td>Revisión</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="action-btn" title="Confirmar"><i class="fas fa-check"></i></button>
+                            <button class="action-btn" title="Reprogramar"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="action-btn" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>16:00</td>
+                        <td>Isabel Cuesta</td>
+                        <td>Quitar escayola</td>
+                        <td><span class="status confirmed">Confirmada</span></td>
+                        <td>
+                            <button class="action-btn" title="Confirmar"><i class="fas fa-check"></i></button>
+                            <button class="action-btn" title="Reprogramar"><i class="fas fa-calendar-alt"></i></button>
+                            <button class="action-btn" title="Cancelar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="doctor-profile-container" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <i class="fas fa-user-md fa-4x"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h2>Dr. Ildefonso Cisneros</h2>
+                        <p class="specialty">Medicina General</p>
+                        <p class="license">Nº Colegiado: MED-5216</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-section">
+                    <h3><i class="fas fa-info-circle"></i> Información Personal</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Email:</label>
+                            <p>dr.cisneros@drportal.com</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Teléfono:</label>
+                            <p>+34 612 345 678</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Especialidad:</label>
+                            <p>Medicina General</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Años de Experiencia:</label>
+                            <p>16 años</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-graduation-cap"></i> Formación Académica</h3>
+                    <ul class="education-list">
+                        <li>
+                            <span class="year">2000-2005</span>
+                            <div class="education-details">
+                                <h4>Licenciatura en Medicina</h4>
+                                <p>Universidad de Barcelona</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="year">2005-2008</span>
+                            <div class="education-details">
+                                <h4>Especialidad en Medicina General</h4>
+                                <p>Hospital Clínic de Barcelona</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-calendar-check"></i> Horario de Consulta</h3>
+                    <div class="schedule-grid">
+                        <div class="schedule-item">
+                            <span class="day">Lunes - Viernes</span>
+                            <span class="hours">09:00 - 17:00</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="day">Sábados</span>
+                            <span class="hours">09:00 - 13:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-patient-container" style="display: none;">
+            <h2>Registrar Nuevo Paciente</h2>
+            <form class="new-patient-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo *</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dni">DNI/NIE *</label>
+                        <input type="text" id="dni" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha-nacimiento">Fecha de Nacimiento *</label>
+                        <input type="date" id="fecha-nacimiento" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genero">Género</label>
+                        <select id="genero">
+                            <option value="">Seleccionar</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono *</label>
+                        <input type="tel" id="telefono" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="antecedentes">Antecedentes Médicos</label>
+                        <textarea id="antecedentes" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="alergias">Alergias</label>
+                        <textarea id="alergias" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="medicacion">Medicación Actual</label>
+                        <textarea id="medicacion" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <p class="required-fields">* Campos obligatorios</p>
+                    <div class="form-buttons">
+                        <button type="button" class="btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn-primary">Registrar Paciente</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="medical-history-container" style="display: none;">
+            <h2>Historial Médico de Pacientes</h2>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar paciente...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="medical-records">
+                <div class="medical-record">
+                    <div class="record-header">
+                        <div class="patient-info">
+                            <h3>María García</h3>
+                            <span class="patient-id">#001</span>
+                        </div>
+                        <span class="last-update">Última actualización: 15/03/2024</span>
+                    </div>
+                    <div class="record-content">
+                        <div class="record-section">
+                            <h4><i class="fas fa-notes-medical"></i> Diagnósticos Recientes</h4>
+                            <ul>
+                                <li>Hipertensión arterial - 15/03/2024</li>
+                                <li>Diabetes tipo 2 - 10/02/2024</li>
+                            </ul>
+                        </div>
+                        <div class="record-section">
+                            <h4><i class="fas fa-pills"></i> Medicación Actual</h4>
+                            <ul>
+                                <li>Enalapril 10mg - 1 vez al día</li>
+                                <li>Metformina 850mg - 2 veces al día</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="record-footer">
+                        <button class="btn-secondary">Ver Historial Completo</button>
+                        <button class="btn-primary">Agregar Nota</button>
+                    </div>
+                </div>
+
+                <div class="medical-record">
+                    <div class="record-header">
+                        <div class="patient-info">
+                            <h3>Juan Pérez</h3>
+                            <span class="patient-id">#002</span>
+                        </div>
+                        <span class="last-update">Última actualización: 18/03/2024</span>
+                    </div>
+                    <div class="record-content">
+                        <div class="record-section">
+                            <h4><i class="fas fa-notes-medical"></i> Diagnósticos Recientes</h4>
+                            <ul>
+                                <li>Artritis reumatoide - 18/03/2024</li>
+                                <li>Ansiedad - 05/03/2024</li>
+                            </ul>
+                        </div>
+                        <div class="record-section">
+                            <h4><i class="fas fa-pills"></i> Medicación Actual</h4>
+                            <ul>
+                                <li>Metotrexato 7.5mg - Semanal</li>
+                                <li>Sertralina 50mg - 1 vez al día</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="record-footer">
+                        <button class="btn-secondary">Ver Historial Completo</button>
+                        <button class="btn-primary">Agregar Nota</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-results-container" style="display: none;">
+            <h2>Resultados de Laboratorio</h2>
+            <div class="lab-filters">
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar por paciente o tipo de análisis...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="date-filter">
+                    <label>Filtrar por fecha:</label>
+                    <input type="date" id="lab-date">
+                </div>
+            </div>
+
+            <div class="lab-results-grid">
+                <div class="lab-result-card">
+                    <div class="result-header">
+                        <div class="result-type">
+                            <i class="fas fa-flask"></i>
+                            <h3>Análisis de Sangre</h3>
+                        </div>
+                        <span class="result-date">15/03/2024</span>
+                    </div>
+                    <div class="patient-details">
+                        <span class="patient-name">María García</span>
+                        <span class="patient-id">#001</span>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <span class="test-name">Glucosa</span>
+                            <span class="test-value">110 mg/dL</span>
+                            <span class="reference">(70-100)</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="test-name">Colesterol</span>
+                            <span class="test-value">185 mg/dL</span>
+                            <span class="reference">(< 200)</span>
+                        </div>
+                    </div>
+                    <div class="result-footer">
+                        <button class="btn-secondary">Ver PDF</button>
+                        <button class="btn-primary">Ver Detalles</button>
+                    </div>
+                </div>
+
+                <div class="lab-result-card">
+                    <div class="result-header">
+                        <div class="result-type">
+                            <i class="fas fa-microscope"></i>
+                            <h3>Análisis de Orina</h3>
+                        </div>
+                        <span class="result-date">18/03/2024</span>
+                    </div>
+                    <div class="patient-details">
+                        <span class="patient-name">Juan Pérez</span>
+                        <span class="patient-id">#002</span>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-item">
+                            <span class="test-name">pH</span>
+                            <span class="test-value">6.5</span>
+                            <span class="reference">(4.5-8)</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="test-name">Proteínas</span>
+                            <span class="test-value">Negativo</span>
+                            <span class="reference">(Neg)</span>
+                        </div>
+                    </div>
+                    <div class="result-footer">
+                        <button class="btn-secondary">Ver PDF</button>
+                        <button class="btn-primary">Ver Detalles</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="diagnostics-container" style="display: none;">
+            <h2>Diagnósticos Activos</h2>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar por paciente o diagnóstico...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="diagnostics-grid">
+                <div class="diagnostic-card">
+                    <div class="diagnostic-header">
+                        <div class="patient-info">
+                            <h3>Roberto Hernandez</h3>
+                            <span class="patient-id">#008</span>
+                        </div>
+                        <span class="diagnosis-date">Diagnosticado: 15/01/2024</span>
+                    </div>
+                    <div class="diagnostic-content">
+                        <div class="diagnosis-main">
+                            <h4>Epilepsia</h4>
+                            <span class="diagnosis-type">Tipo: Epilepsia focal</span>
+                        </div>
+                        <div class="diagnosis-details">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-notes-medical"></i> Síntomas Principales</h5>
+                                <ul>
+                                    <li>Crisis focales con alteración de consciencia</li>
+                                    <li>Episodios de ausencia</li>
+                                    <li>Confusión post-crisis</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h5><i class="fas fa-pills"></i> Tratamiento Actual</h5>
+                                <ul>
+                                    <li>Levetiracetam 500mg - 2 veces al día</li>
+                                    <li>Ácido Valproico 500mg - Noche</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h5><i class="fas fa-calendar-check"></i> Seguimiento</h5>
+                                <p>Control mensual con EEG</p>
+                                <p>Última crisis: 10/03/2024</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diagnostic-footer">
+                        <button class="btn-secondary">Ver Historial</button>
+                        <button class="btn-primary">Actualizar</button>
+                    </div>
+                </div>
+
+                <div class="diagnostic-card">
+                    <div class="diagnostic-header">
+                        <div class="patient-info">
+                            <h3>Laura Sánchez</h3>
+                            <span class="patient-id">#005</span>
+                        </div>
+                        <span class="diagnosis-date">Diagnosticado: 05/12/2023</span>
+                    </div>
+                    <div class="diagnostic-content">
+                        <div class="diagnosis-main">
+                            <h4>Trastorno del Espectro Autista</h4>
+                            <span class="diagnosis-type">Tipo: Grado 1 (Requiere apoyo)</span>
+                        </div>
+                        <div class="diagnosis-details">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-notes-medical"></i> Características</h5>
+                                <ul>
+                                    <li>Dificultades en interacción social</li>
+                                    <li>Patrones de intereses específicos</li>
+                                    <li>Sensibilidad sensorial moderada</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h5><i class="fas fa-hand-holding-medical"></i> Intervenciones</h5>
+                                <ul>
+                                    <li>Terapia ocupacional - 2 veces por semana</li>
+                                    <li>Terapia del lenguaje - Semanal</li>
+                                    <li>Apoyo psicopedagógico</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h5><i class="fas fa-calendar-check"></i> Seguimiento</h5>
+                                <p>Evaluación trimestral del desarrollo</p>
+                                <p>Próxima revisión: 15/04/2024</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diagnostic-footer">
+                        <button class="btn-secondary">Ver Historial</button>
+                        <button class="btn-primary">Actualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="prescriptions-container" style="display: none;">
+            <h2>Recetas Médicas</h2>
+            <div class="prescriptions-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar por paciente o medicamento...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <button class="btn-primary">
+                    <i class="fas fa-plus"></i> Nueva Receta
+                </button>
+            </div>
+
+            <div class="prescriptions-grid">
+                <div class="prescription-card">
+                    <div class="prescription-header">
+                        <div class="patient-info">
+                            <h3>Roberto Hernandez</h3>
+                            <span class="patient-id">#008</span>
+                        </div>
+                        <span class="prescription-date">Fecha: 23/03/2024</span>
+                    </div>
+                    <div class="prescription-content">
+                        <div class="medication-list">
+                            <h4><i class="fas fa-pills"></i> Medicamentos</h4>
+                            <ul>
+                                <li>
+                                    <span class="med-name">Levetiracetam 500mg</span>
+                                    <span class="med-dosage">1 tableta cada 12 horas</span>
+                                    <span class="med-duration">30 días</span>
+                                </li>
+                                <li>
+                                    <span class="med-name">Ácido Valproico 500mg</span>
+                                    <span class="med-dosage">1 tableta en la noche</span>
+                                    <span class="med-duration">30 días</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="prescription-notes">
+                            <h4><i class="fas fa-notes-medical"></i> Indicaciones</h4>
+                            <p>Tomar con alimentos. Evitar bebidas alcohólicas.</p>
+                        </div>
+                    </div>
+                    <div class="prescription-footer">
+                        <button class="btn-secondary">Imprimir</button>
+                        <button class="btn-primary">Renovar</button>
+                    </div>
+                </div>
+
+                <div class="prescription-card">
+                    <div class="prescription-header">
+                        <div class="patient-info">
+                            <h3>María García</h3>
+                            <span class="patient-id">#001</span>
+                        </div>
+                        <span class="prescription-date">Fecha: 22/03/2024</span>
+                    </div>
+                    <div class="prescription-content">
+                        <div class="medication-list">
+                            <h4><i class="fas fa-pills"></i> Medicamentos</h4>
+                            <ul>
+                                <li>
+                                    <span class="med-name">Metformina 850mg</span>
+                                    <span class="med-dosage">1 tableta cada 8 horas</span>
+                                    <span class="med-duration">60 días</span>
+                                </li>
+                                <li>
+                                    <span class="med-name">Enalapril 10mg</span>
+                                    <span class="med-dosage">1 tableta en la mañana</span>
+                                    <span class="med-duration">30 días</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="prescription-notes">
+                            <h4><i class="fas fa-notes-medical"></i> Indicaciones</h4>
+                            <p>Tomar metformina con las comidas. Control de glucemia semanal.</p>
+                        </div>
+                    </div>
+                    <div class="prescription-footer">
+                        <button class="btn-secondary">Imprimir</button>
+                        <button class="btn-primary">Renovar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics-container" style="display: none;">
+            <h2>Estadísticas del Consultorio</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Nuevos Pacientes</h3>
+                        <p class="stat-number">24</p>
+                        <span class="stat-period">Este mes</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Consultas Realizadas</h3>
+                        <p class="stat-number">156</p>
+                        <span class="stat-period">Este mes</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Análisis Solicitados</h3>
+                        <p class="stat-number">45</p>
+                        <span class="stat-period">Este mes</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-prescription"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Recetas Emitidas</h3>
+                        <p class="stat-number">198</p>
+                        <span class="stat-period">Este mes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-charts">
+                <div class="chart-container">
+                    <h3>Consultas por Especialidad</h3>
+                    <div class="chart-placeholder">
+                        <div class="chart-bar" style="height: 60%;">
+                            <span class="chart-label">Medicina General</span>
+                        </div>
+                        <div class="chart-bar" style="height: 40%;">
+                            <span class="chart-label">Pediatría</span>
+                        </div>
+                        <div class="chart-bar" style="height: 30%;">
+                            <span class="chart-label">Cardiología</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Pacientes por Edad</h3>
+                    <div class="chart-placeholder">
+                        <div class="chart-bar" style="height: 45%;">
+                            <span class="chart-label">0-18</span>
+                        </div>
+                        <div class="chart-bar" style="height: 75%;">
+                            <span class="chart-label">19-40</span>
+                        </div>
+                        <div class="chart-bar" style="height: 55%;">
+                            <span class="chart-label">41-60</span>
+                        </div>
+                        <div class="chart-bar" style="height: 35%;">
+                            <span class="chart-label">60+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Emergencias: 911</li>
+                    <li><i class="fas fa-envelope"></i> consultas@drportal.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Calle Médica 22</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Servicios</h3>
+                <ul>
+                    <li><a href="#">Consultas Online</a></li>
+                    <li><a href="#">Citas Médicas</a></li>
+                    <li><a href="#">Resultados Lab</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Links Útiles</h3>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Jetz </p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
