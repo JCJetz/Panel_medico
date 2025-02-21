@@ -1,85 +1,195 @@
-# Panel Médico - Sistema de Gestión Clínica
+# Medical Panel - Clinical Management System (Frontend)
 
-## 📋 Descripción
-Panel Médico es una interfaz frontend para la gestión de una clínica médica. Proporciona una visualización interactiva de datos médicos y gestión de pacientes.
+## 📋 Description
+Medical Panel is a frontend interface for clinic management with static data demonstration.
 
 
 ## 📸 Snapshots
 
-### Dashboard Principal
+### Dashboard 
 ![Dashboard](./assets/screenshots/navDoc_dashboard.png)
-*Vista principal del panel médico*
+*Main dashboard view*
 
-### Lista de Pacientes
-![Lista de Pacientes](./assets/screenshots/navDoc_LP.png)
-*Gestión y búsqueda de pacientes*
+### Patient List
+![Patient List](./assets/screenshots/navDoc_LP.png)
+*Patient management and search*
 
-### Resultados de Laboratorio
-![Resultados de Lab](./assets/screenshots/navDoc_RL.png)
-*Vista de resultados de laboratorio con opción de exportar a PDF*
+### Laboratory Results
+![Laboratory Results](./assets/screenshots/navDoc_RL.png)
+*Laboratory results view with PDF export option*
 
-### Historial Médico
-![Historial Médico](./assets/screenshots/navDoc_HM.png)
-*Visualización del historial médico de pacientes*
+### Medical History
+![Medical History](./assets/screenshots/navDoc_HM.png)
+*Patient medical history visualization*
 
-### Citas Pendientes
-![Citas Pendientes](./assets/screenshots/navDoc_CP.png)
-*Panel de citas pendientes*
+### Pending Appointments
+![Pending Appointments](./assets/screenshots/navDoc_CP.png)
+*Pending appointments panel*
 
-### Estadísticas
-![Estadísticas](./assets/screenshots/navDoc_estadisticas.png)
-*Panel de estadísticas*
+### Statistics
+![Statistics](./assets/screenshots/navDoc_estadisticas.png)
+*Statistics panel*
 
-## 🚀 Características Implementadas
+## 🚀 Implemented Features
 
-### 👥 Gestión de Pacientes
-- Lista de pacientes con búsqueda en tiempo real, por paciente e ID.
-- Registro de nuevos pacientes
-- Visualización de estados (Activo, Pendiente, Inactivo)
+### ✅ Functionalities
+1. **Patient List**
+   - Real-time search by name and ID
+   - Status visualization (Active, Pending, Inactive)
 
-### 📅 Gestión de Citas
-- Visualización de citas pendientes
-- Filtrado por fecha
-- Estados de citas (Confirmada, Pendiente)
+   - **Patient List Actions:**
+     ```html
+     <!--View Details Button (👁️) -->
+     <button class="action-btn"><i class="fas fa-eye"></i></button>
+     - Opens a modal with detailed patient information
+     - Shows ID, name, age, last visit and status
+     - Can be closed with X button or clicking outside
 
-### 📝 Historiales Médicos
-- Visualización de diagnósticos
-- Historial de tratamientos
-- Medicación actual
+     <!-- Edit Patient Button -->
+     <button class="action-btn"><i class="fas fa-edit"></i></button>
+     - Opens a modal form to edit patient
+     - Allows name and status modification
+     - ID in read-only mode
+    
+     ```
 
-### 🔬 Resultados de Laboratorio
-- Visualización de análisis
-- Exportación a PDF
-- Filtrado por fecha
+2. **Emergency Button**
+   - Emergency contacts modal
+   - Direct call to emergency numbers
+   - On-duty medical contacts list
+  
+   ```html
+   <button class="emergency-btn">
+       <i class="fas fa-phone"></i>
+       Emergency
+   </button>
+   ```
 
-### 🏥 Diagnósticos
-- Visualización de condiciones médicas
-- Detalles de tratamientos
-- Seguimiento de pacientes
 
-### 👨‍⚕️ Perfil del Doctor
-- Información personal
-- Credenciales
-- Horario de consulta
 
-## 🛠️ Tecnologías Utilizadas
+2. **Dynamic Forms**
+   - Pre-populated fields with current data
+   - Required field validation
+   - Save and cancel buttons
+
+2. **Navigation**
+   - Show/hide container system
+   - Functional dropdown menus
+   - Default dashboard
+
+3. **PDF Export**
+   - Laboratory results export to PDF
+   - Automatic button removal in PDF version
+
+### 📅 Appointment Management
+- Pending appointments visualization
+
+### 📝 Medical Records
+- Diagnosis visualization
+- Treatment history
+- Current medication
+
+### 🔬 Laboratory Results
+- Analysis visualization
+- PDF export
+
+### 🏥 Diagnostics
+- Medical conditions visualization
+- Treatment details
+- Patient monitoring
+
+### 👨‍⚕️ Doctor Profile
+- Personal information
+- Credentials
+
+## 🛠️ Technologies Used
 - HTML5
 - CSS3
-- JavaScript (Vanilla)
-- Font Awesome (iconos)
-- html2pdf.js (exportación PDF)
+- JavaScript
+- External Libraries:
+  - Font Awesome 6.0.0 (for icons)
+  - html2pdf.js 0.10.1 (for PDF export)
 
-## 💻 Instalación y Uso
-
-1. Clonar el repositorio
-2. Abrir index.html en un navegador web
-3. No requiere configuración adicional
+## 💻 Installation and Usage
+1. Clone the repository
+2. Open index.html in a web browser
+3. No additional configuration required
 
 ## 📱 Responsive Design
-- Adaptable a múltiples dispositivos
-- Menú móvil optimizado
-- Layouts flexibles
+- Adaptable to multiple devices
+- Optimized mobile menu
+- Flexible layouts
 
+## 🔄 Navigation
+The system implements dynamic navigation that:
+- Shows only one container at a time
+- Automatically hides other sections
+- Maintains clean and organized interface state
 
+### Main Containers:
+- Dashboard (`dashboard-container`)
+- Patient List (`patients-list-container`)
+- New Patients (`new-patient-container`)
+- Pending Appointments (`pending-appointments-container`)
+- Medical History (`medical-history-container`)
+- Laboratory Results (`lab-results-container`)
+- Diagnostics (`diagnostics-container`)
+- Prescriptions (`prescriptions-container`)
+- Statistics (`statistics-container`)
+- Doctor Profile (`doctor-profile-container`)
 
+## 🔥 Critical Points and Complexities
 
+### 1. Container and Navigation Management
+- Logic for correctly showing/hiding containers
+- Prevent multiple containers from showing simultaneously
+- Maintain consistent navigation state
+
+```js
+function hideAllContainers() {
+Object.values(containers).forEach(container => {
+if (container) {
+container.style.display = 'none';
+}
+});
+}
+```
+
+### 2. Real-Time Search System
+- Dynamic patient filtering
+- Handling no results cases
+- Performance optimization in large tables
+
+```js
+function filterPatients(searchTerm) {
+searchTerm = searchTerm.toLowerCase();
+let hasResults = false;
+tableRows.forEach(row => {
+const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+if (name.includes(searchTerm) || id.includes(searchTerm)) {
+row.style.display = '';
+hasResults = true;
+} else {
+row.style.display = 'none';
+}
+});
+}
+```
+
+### 3. Form and Data Management
+- Patient data validation
+- Automatic ID generation
+- Precise age calculations
+
+```js
+function getNextPatientId() {
+const rows = document.querySelectorAll('.patients-table tbody tr');
+let maxId = 0;
+rows.forEach(row => {
+const id = parseInt(row.querySelector('td:first-child').textContent.replace('#', ''));
+maxId = Math.max(maxId, id);
+});
+return String(maxId + 1).padStart(3, '0');
+}
+```
